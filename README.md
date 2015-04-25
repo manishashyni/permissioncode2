@@ -23,8 +23,16 @@ public class FolderCreation {
 			System.out.println(success);
 		//	Runtime.getRuntime().exec("icacls p:\\xy4 /deny Everyone:W");
 		//	Runtime.getRuntime().exec("icacls p:\\xy4 /grant :r Gonugunta Manisha Shyni(523479)(Gonugunta_523479@ad.infosys.com):(OI)(CI)F /grant :r Everyone:(OI)(CI)R");
-			Runtime.getRuntime().exec("icacls p:\\xy4 /grant :r Everyone:(OI)(CI)R");
-			Runtime.getRuntime().exec("icacls p:\\xy4 /grant :r Gonugunta Manisha Shyni(523479)(Gonugunta_523479@ad.infosys.com):(OI)(CI)F");
+		
+			// Take ownership of the folder.
+			Runtime.getRuntime().exec("TAKEOWN /f p:\\xy4 /r /d y");
+			// Clear folder permissions.
+			Runtime.getRuntime().exec("ICACLS p:\\xy4 /reset /T");
+			
+			// Only allow Shyni to have full control and everyone else to read.
+			Runtime.getRuntime().exec("icacls p:\\xy4 /grant :r Gonugunta Manisha Shyni(523479)(Gonugunta_523479@ad.infosys.com):(OI)(CI)F /grant :r Everyone:(OI)(CI)R");
+			// Set inheritance on everythin below.
+			Runtime.getRuntime().exec("icacls p:\\xy4 /inheritance:r);
 		}
       if (success) {
           System.out.printf("Successfully created new file: %s%n", f);
